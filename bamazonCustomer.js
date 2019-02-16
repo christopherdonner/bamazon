@@ -16,8 +16,9 @@ connection.connect(function(err){
 
 connection.query("select item_id, product_name, product_department, price from products order by item_id")
 
-// inquirer.prompt([
-//     {
-//         message: "Please enter the ID of the item you would like to purchase"
-//     }
-// ])
+inquirer.prompt([
+    {
+        message: "Please enter the ID of the item you would like to purchase",
+        name: "ID"
+    }
+])
