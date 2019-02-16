@@ -28,9 +28,11 @@ connection.query("select item_id, product_name, department_name, price from prod
             type: "input",
             }
     ]).then(function (res) {
-        connection.query(`select * from product where item_id=${res}`, function (err, results) {
+        connection.query(`select * from products where item_id=${res.ID}`, function (err, results) {
             if (err) { throw err; }
             console.log(results)
         })
     })
+
+    
 })

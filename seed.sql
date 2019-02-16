@@ -1,5 +1,5 @@
 use bamazon;
-select * from products
+select * from products;
 insert into products (product_name, department_name, price, quantity)
 values ("banjo", "musical instruments", 18.00, 1);
 
