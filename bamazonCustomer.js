@@ -19,9 +19,9 @@ connection.connect(function (err) {
     console.log("connected");
 })
 
+function allTheThings(){
 connection.query("select item_id, product_name, department_name, price from products order by item_id", function (err, results) {
     if (err) { throw err };
-    // console.log(results)
     for (i = 0; i < results.length; i++) {
         console.log(`Item ID: ${results[i].item_id}\nName: ${results[i].product_name}\nPrice: $${results[i].price}]`)
     }
@@ -35,10 +35,9 @@ connection.query("select item_id, product_name, department_name, price from prod
     ]).then(function (res) {
         connection.query(`select * from products where item_id=${res.ID}`, function (err, results) {
             if (err) { throw err; }
-            console.log(results)
-            item_id = parseInt(res.ID);
-            item_quantity = parseInt(results.quantity);
-            item_price=parseInt(results.price);
+            item_id = parseInt(results[0].item_id);
+            item_quantity = parseInt(results[0].quantity);
+            item_price = parseInt(results[0].price);
             inquirer.prompt([
                 {
                     message: "How many would you like?",
@@ -47,19 +46,20 @@ connection.query("select item_id, product_name, department_name, price from prod
                 }
             ]).then(function (res) {
                 quantity = parseInt(res.quantity)
-            if (quantity > item_quantity) {
-                console.log("Insufficient quantity!")
-            }
-            else{
-                item_quantity--;
-                connection.query(`update products set quantity=${item_quantity} where item_id=${item_id}`)
-                console.log(`Purchase order accepted. $${item_price} has been charged to your credit card.`)
-            }
+                if (quantity > item_quantity) {
+                    console.log("Insufficient quantity!")
+                    allTheThings();
+                }
+                else {
+                    item_quantity--;
+                    console.log(item_id, item_quantity)
+                    connection.query(`update products set quantity=${item_quantity} where item_id=${item_id}`)
+                    console.log(`Purchase order accepted. $${item_price} has been charged to your credit card.`)
+                    allTheThings();
+                }
+            })
         })
     })
-
-
-    })
-
-
 })
+}
+allTheThings();
