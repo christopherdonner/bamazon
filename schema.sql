@@ -8,7 +8,7 @@ create table products (
     item_id int not null auto_increment,
     product_name varchar (64) null,
     department_name varchar (64) null,
-    price int,
+    price decimal(10,2),
     quantity int,
     primary key(item_id)
 );
